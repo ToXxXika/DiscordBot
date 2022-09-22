@@ -1,33 +1,32 @@
 const {SlashCommandBuilder, EmbedBuilder,Embed} = require('discord.js');
-const Server = require('../../api/server');
-const proclub = new Server();
+const pc = require("../../api/pcapi");
+const proclub = new pc();
 module.exports={
     data : new SlashCommandBuilder().setName('getclubinfo').setDescription("Display the Club Info")
         //add multiple string options
         .addStringOption(option => option.setName('clubname').setDescription('Club Name').setRequired(true))
         .addStringOption(option => option.setName('platform').setDescription('The Platform').setRequired(true)),
     async execute(interaction,client){
-        //TODO: how to get the club id from the interaction
-        const clubName = interaction.options.getString('clubname');
-        const plateform = interaction.options.getString('platform');
-        const clubId = await proclub.getClubIdByName(plateform,clubName);
-        console.log("1-----"+clubId);
-        console.log("2------"+plateform);
-         const pc  =  await proclub.getClubInfo(plateform,clubId);
 
-         console.log("club")
-         console.log("******")
+        await interaction.deferReply();
+         //TODO: how to get the club id from the interaction
+        const clubName = interaction.options.getString('clubname');
+        const plateform = interaction.options.getString('platform').toLowerCase();
+        const clubId = await proclub.getClubIdByName(plateform,clubName);
+        const pc  =  await proclub.getClubInfo(plateform,clubId);
+        const playerCount = await proclub.getClubMembers(plateform,clubId);
+        const clubStats = await proclub.getClubStats(plateform,clubId);
         const embed = new EmbedBuilder()
             .setTitle(pc["name"])
-            .setDescription('Blinky Boys jam3eya fihech rjel')
+            .setDescription('SET_DESCRIPTION HERE')
             .setColor('#a434eb')
             .setAuthor({
                 url:`https://www.facebook.com/DarkToXika/`,
                 iconURL:interaction.user.displayAvatarURL(), //this will take the user's avatar
                 name:interaction.user.tag //this will take the user's tag
             })
-            .setImage(`https://proclubshead.com/assets/img/crests/club-default.png`) // this will take the bot's avatar
-            .setThumbnail(client.user.displayAvatarURL())   // small image for the Embed
+            .setImage(`https://1.bp.blogspot.com/-WCIJ3MD6Tj4/YVt13C0IbpI/AAAAAAAAJ4Q/rBb9ciEL9Kkfm9B2YGH6TK616VMtiFXYACLcBGAsYHQ/s750/Fifa22Field.jpg`) // this will take the bot's avatar
+            .setThumbnail(`https://media.contentapi.ea.com/content/dam/eacom/fr-fr/common/october-ea-ring.png`)   // small image for the Embed
             .setURL(`https://www.facebook.com/DarkToXika/`)
             .setFooter({
                 iconURL:client.user.displayAvatarURL(),
@@ -35,17 +34,68 @@ module.exports={
             })
             .addFields([
                 {
-                    name: 'Field 1',
-                    value: 'Hello, this is a field',
+                    name:'Current Division Rank',
+                    value:clubStats["currentDivision"].toString(),
+                    inline:true
+                },
+                {
+                    name:'Overall Ranking Points',
+                    value:clubStats["overallRankingPoints"].toString(),
+                    inline:true
+                }
+                ,{
+                    name: 'Player Count',
+                    value: playerCount.toString(),
+                    inline: false
+                },
+                {
+                    name: 'All Time Goals',
+                    value: clubStats["alltimeGoals"].toString(),
                     inline: true
                 },
                 {
-                    name: 'Field 2',
-                    value: 'Hello, this is a field',
+                    name: 'Season Played',
+                    value: clubStats["seasons"].toString(),
+                    inline: true
+                },
+                {
+                    name: 'Wins',
+                    value: clubStats['wins'].toString(),
+                    inline: true
+                },
+                {
+                    name: 'Ties',
+                    value: clubStats['ties'].toString(),
+                    inline: true
+
+                },
+                {
+                    name: 'Loses',
+                    value: clubStats['losses'].toString(),
                     inline: true
                 }
-            ]);
-        // Switch it with Twitch Account when you have one to make the title a link
-        await interaction.reply({embeds:[embed]});
+
+            ])
+            .setTimestamp();
+
+
+        await interaction.editReply({
+            "content": "Club Info",
+            "components": [
+                {
+                    "type": 1,
+                    "components": [
+                        {
+                            "style": 5,
+                            "label": `Full Stats`,
+                            "url": `https://proclubshead.com/22/club/${plateform}-${clubId}/`,
+                            "disabled": false,
+                            "type": 2
+                        }
+                    ]
+                }
+            ],
+
+            embeds:[embed]});
     },
 };
