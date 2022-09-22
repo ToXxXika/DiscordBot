@@ -5,6 +5,7 @@ const app = express();
 
         }
         start(){
+
             this.app = express();
             this.app.use(express.json());
             this.app.use(express.urlencoded({ extended: false }));
