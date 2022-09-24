@@ -2,6 +2,10 @@ const {SlashCommandBuilder,EmbedBuilder,Embed, Message} = require('discord.js');
 const pc = require("../../api/pcapi");
 const proclub = new pc();
 module.exports= {
+    /**
+     * @param {Message} message
+     *
+     */
     data: new SlashCommandBuilder().setName('playerstat').setDescription("Display the Club Members")
         //add multiple string options
         .addStringOption(option => option.setName('clubname').setDescription('Club Name').setRequired(true))
@@ -43,9 +47,11 @@ module.exports= {
                     }
                 ]);
             await interaction.editReply({embeds: [embed]});
+
         }else{
             const embed = new EmbedBuilder().setDescription('Player Not Found').setColor('#a434eb');
             await interaction.editReply({embeds: [embed]});
+
         }
     },
 
