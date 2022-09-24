@@ -4,8 +4,7 @@
   "description": "",
   "main": "src/bot.js",
   "engines": {
-    "node": " >=16.5.1",
-    "npm": " >=18.9.1"
+    "node": " >=18.9.1"
   },
   "scripts": {
     "start": "./node_modules/.bin/netlify-lambda serve src",
