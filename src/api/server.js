@@ -1,20 +1,26 @@
-const express= require('express');
-const app = express();
- class Server{
-       constructor(){
+const express = require('express');
+const serverless = require('serverless-http');
 
-        }
-        start(){
+class Server{
+  constructor() {
+  }
+  start(){
+    const app = express();
+    const router = express.Router();
 
-            this.app = express();
-            this.app.use(express.json());
-            this.app.use(express.urlencoded({ extended: false }));
-            this.app.use(express.static('public'));
-            module.exports=app;
-            this.app.listen(3000,()=>{
-                console.log('Server is running on port 3000');
-            });
-        }
+    router.get('/', (req, res) => {
+      res.json({ hello: 'world' });
+    });
+
+    app.use('/.netlify/functions/server', router);  // path must route to lambda
+    app.listen(3000, () => console.log(`Listening on port 3000`));
+
+
+    module.exports.handler = serverless(app);
+
+  }
 
 }
-module.exports=Server;
+module.exports = Server;
+
+

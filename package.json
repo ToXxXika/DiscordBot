@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "nodemon .",
-    "build": "nodemon start"
+    "build": "./node_modules/.bin/netlify-lambda build src",
+    "start": "./node_modules/.bin/netlify-lambda serve src"
   },
   "keywords": [],
   "author": "DarK_ToXxXika & TheHungryBoo",
@@ -22,6 +23,7 @@
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "netlify-lambda": "^2.0.15",
     "nodemon": "^2.0.20",
     "proclubs-api": "^0.0.17",
     "serverless-http": "^3.0.2"
