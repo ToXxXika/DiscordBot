@@ -33,31 +33,57 @@ module.exports= {
         }else{
             const playerStat = await proclub.getPlayerStats(plateform, clubId, playerName);
             const embed = new EmbedBuilder()
-                .setTitle(playerStat["name"])
+                .setTitle(playerStat["name"].toString())
                 .setDescription('Favorite Position: ' + playerStat["favoritePosition"])
                 .setColor('#a434eb')
+                .setImage(`https://images.hdqwalls.com/download/football-ground-sun-rays-4k-ev-1920x1080.jpg`)
                 .addFields([
                     {
-                        name: 'Games Played',
+                        name: `Game Played`,
                         value: playerStat["gamesPlayed"].toString(),
+                    },
+                    {
+                        name: `Favorite Position`,
+                        value: playerStat["favoritePosition"].toString(),
                         inline: true
                     },
                     {
-                        name: 'Goals',
+                        name: `Overall Rating`,
+                        value: playerStat["proOverall"].toString(),
+                        inline: true
+                    },
+                    {
+                        name: `Nationality`,
+                        value: playerStat["proNationality"].toString(),
+                        inline: true
+                    },
+                    {
+                        name: `Goals`,
                         value: playerStat["goals"].toString(),
                         inline: true
                     },
                     {
-                        name: 'Assists',
+                        name: `Assists`,
                         value: playerStat["assists"].toString(),
                         inline: true
                     },
                     {
-                        name: 'Man of The Match',
+                        name: `Man Of The Match`,
                         value: playerStat["manOfTheMatch"].toString(),
+                        inline: true
+                    },
+                    {
+                        name: `tackles Made`,
+                        value: playerStat["tacklesMade"].toString(),
+                        inline: true
+                    },
+                    {
+                        name: `tackle Success Rate`,
+                        value: playerStat["tackleSuccessRate"].toString(),
                         inline: true
                     }
                 ]);
+
             await interaction.editReply({embeds: [embed]});
         }
 

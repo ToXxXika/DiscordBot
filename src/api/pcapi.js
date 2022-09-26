@@ -10,6 +10,14 @@ class pcapi {
         });
         return clubMembers ;
     }
+    async getClubMembersDetailedStats(platform,clubId){
+        var clubMembersDetailedStats
+        await proclubsapi.getClubMembers(platform, clubId).then((data) => {
+            clubMembersDetailedStats= data;
+            return clubMembersDetailedStats ;
+        });
+        return clubMembersDetailedStats ;
+        }
     async  getClubInfo(plateform,clubId){
 
         var clubinfo
@@ -39,9 +47,9 @@ class pcapi {
     }
     async getPlayerStats(plateform,clubId,playerName){
         var playerStats
-        await proclubsapi.getClubMemberStats(plateform, clubId).then((data) => {
+        await this.getClubMembersDetailedStats(plateform, clubId).then((data) => {
             for(let i = 0;i<data.length;i++){
-                console.log(data[i])
+
                 if(data[i].name===playerName){
                     playerStats= data[i];
                     return playerStats ;
