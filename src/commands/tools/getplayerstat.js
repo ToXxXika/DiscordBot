@@ -17,9 +17,21 @@ module.exports= {
         const plateform = interaction.options.getString('platform');
         const playerName = interaction.options.getString('playername');
         const clubId = await proclub.getClubIdByName(plateform, clubName);
-        const playerStat = await proclub.getPlayerStats(plateform, clubId, playerName);
+
          //test if the clubName is valid ,playerName is valid and the club is not empty
-        if(  playerName !== undefined || playerStat !== undefined || clubId !== undefined ) {
+        if(clubId === null || clubId === undefined ) {
+           await interaction.editReply({
+                content :`${interaction['user'] } `,
+                ephemeral: true,
+                embeds:[{
+                    title: "Player not found",
+                    description: " ❌ ❌ ❌ Please check the player name ❌ ❌ ❌ ",
+                    color: 0xff0000
+
+                }],
+            });
+        }else{
+            const playerStat = await proclub.getPlayerStats(plateform, clubId, playerName);
             const embed = new EmbedBuilder()
                 .setTitle(playerStat["name"])
                 .setDescription('Favorite Position: ' + playerStat["favoritePosition"])
@@ -47,12 +59,8 @@ module.exports= {
                     }
                 ]);
             await interaction.editReply({embeds: [embed]});
-
-        }else{
-            const embed = new EmbedBuilder().setDescription('Player Not Found').setColor('#a434eb');
-            await interaction.editReply({embeds: [embed]});
-
         }
+
     },
 
 };

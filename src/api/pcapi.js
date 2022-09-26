@@ -23,8 +23,10 @@ class pcapi {
         var clubId
         await proclubsapi.getClubIdByName(platform, clubName).then((data) => {
             clubId= data;
+            console.log("clubId: "+clubId)
             return clubId ;
         });
+        console.log("clubId outside: "+clubId)
         return clubId ;
     }
     async getClubStats(platform,clubId){
@@ -39,6 +41,7 @@ class pcapi {
         var playerStats
         await proclubsapi.getClubMemberStats(plateform, clubId).then((data) => {
             for(let i = 0;i<data.length;i++){
+                console.log(data[i])
                 if(data[i].name===playerName){
                     playerStats= data[i];
                     return playerStats ;

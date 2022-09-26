@@ -7,9 +7,8 @@
     "node": " >=18.9.1"
   },
   "scripts": {
-    "test": "nodemon .",
-    "build": "./node_modules/.bin/netlify-lambda build src",
-    "start": "./node_modules/.bin/netlify-lambda serve src"
+    "test": "nodemon ."
+
   },
   "keywords": [],
   "author": "DarK_ToXxXika & TheHungryBoo",
