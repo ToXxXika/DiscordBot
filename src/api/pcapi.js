@@ -1,4 +1,5 @@
 const proclubsapi = require("proclubs-api");
+const fut = require('fut.js')
 class pcapi {
     constructor() {
     }
@@ -9,6 +10,9 @@ class pcapi {
             return clubMembers ;
         });
         return clubMembers ;
+    }
+    async getFutPlayerPrice(player){
+
     }
     async getClubMembersDetailedStats(platform,clubId){
         var clubMembersDetailedStats
